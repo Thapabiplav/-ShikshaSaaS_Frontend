@@ -1,9 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import { IRegisterData } from "./register.type"
+import { useAppDispatch } from "@/lib/store/hooks"
+import { registerUser } from "@/lib/store/auth/authSlice"
 
 
 
 function Register(){
+  const dispatch = useAppDispatch()
   const [data,setData] = useState<IRegisterData>({
     username:'',
     password:'',
@@ -19,7 +22,7 @@ function Register(){
   }
 
   const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
-    
+    dispatch(registerUser(data))
   }
 
   return (
