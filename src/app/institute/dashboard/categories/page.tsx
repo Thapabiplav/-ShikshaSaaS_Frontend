@@ -6,10 +6,10 @@ import {
   deleteCategories,
   fetchCategories,
 } from "@/lib/store/institute/category/categoryInstituteSlice";
-
 import { useEffect, useState } from "react";
 
 function InstituteCategoriesDashboard() {
+  const[searchText,setSearchedText] = useState<string> ('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { data: category } = useAppSelector((store) => store.category);
   const dispatch = useAppDispatch();
@@ -23,6 +23,9 @@ function InstituteCategoriesDashboard() {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  let filteredData = category.filter((categories) =>categories.categoryName.includes(searchText)  || categories.id.includes(searchText))
+
   return (
     <>
       <div className="flex flex-col">
@@ -61,6 +64,7 @@ function InstituteCategoriesDashboard() {
                   </svg>
                 </div>
                 <input
+                onChange={(e)=>setSearchedText(e.target.value)}
                   type="text"
                   id="default-search"
                   className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
@@ -82,22 +86,22 @@ function InstituteCategoriesDashboard() {
                       scope="col"
                       className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"
                     >
-                      {" "}
-                      Id{" "}
+                      
+                      Id
                     </th>
                     <th
                       scope="col"
                       className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"
                     >
-                      {" "}
+                   
                       Name
                     </th>
                     <th
                       scope="col"
                       className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"
                     >
-                      {" "}
-                      Description Type{" "}
+                    
+                      Description 
                     </th>
                     <th
                       scope="col"
@@ -110,14 +114,14 @@ function InstituteCategoriesDashboard() {
                       scope="col"
                       className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"
                     >
-                      {" "}
-                      Actions{" "}
+                      
+                      Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-300 ">
-                  {category.length > 0 &&
-                    category.map((categories: ICategoryData) => {
+                  {filteredData.length > 0 &&
+                    filteredData.map((categories: ICategoryData) => {
                       return (
                         <tr
                           key={categories?.id}
