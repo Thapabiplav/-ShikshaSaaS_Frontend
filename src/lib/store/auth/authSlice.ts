@@ -4,12 +4,12 @@ import { Status } from "@/lib/types/types";
 import { IRegisterData } from "@/app/auth/register/register.type";
 import { AppDispatch } from "../store";
 import API from "@/lib/http";
+import { ILogin } from "@/app/auth/login/login-types";
 
 const initialState: IInitialState = {
   user: {
-    username: "",
-    password: "",
-    email: "",
+    userName: "",
+    token:''
   },
   status: Status.LOADING,
 };
@@ -34,7 +34,24 @@ export function registerUser(data: IRegisterData) {
   return async function loginUserThunk(dispatch: AppDispatch) {
     try {
       const response = await API.post("/register", data);
-      if ((response.status = 200)) {
+      if ((response.status === 200)) {
+        dispatch(setStatus(Status.SUCCESS))
+      } else {
+        dispatch(setStatus(Status.ERROR))
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR))
+    }
+  };
+}
+
+export function loginUser(data: ILogin) {
+  return async function loginUserThunk(dispatch: AppDispatch) {
+    try {
+      const response = await API.post("/login", data);
+      if ((response.status === 200)) {
+        dispatch(setUser(response.data.data))
+        localStorage.setItem('token',response.data.data.token)
         dispatch(setStatus(Status.SUCCESS))
       } else {
         dispatch(setStatus(Status.ERROR))
