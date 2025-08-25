@@ -3,7 +3,7 @@ import { IInitialState, IUserData } from "./authSlice.type";
 import { Status } from "@/lib/types/types";
 import { IRegisterData } from "@/app/auth/register/register.type";
 import { AppDispatch } from "../store";
-import API from "@/lib/http";
+import{ API} from "@/lib/http";
 import { ILogin } from "@/app/auth/login/login-types";
 
 const initialState: IInitialState = {
