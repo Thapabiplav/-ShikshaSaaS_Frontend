@@ -2,23 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IInstituteTeacherInitialData, IInstituteTeacherInitialDataTeacher, TeacherExpertise } from "./institute-teacher-type";
 import { Status } from "@/lib/types/types";
 import { AppDispatch } from "../../store";
-import API from "@/lib/http";
+import { APIToken } from "@/lib/http";
+
 
 const initialState: IInstituteTeacherInitialData = {
-  teacher: {
-    course: {
-      courseName: "",
-      coursePrice: "",
-      courseThumbnail: "",
-    },
-    teacherEmail: "",
-    teacherExpertise: TeacherExpertise.Beginner ,
-    teacherPhoneNumber: "",
-    teacherJoinedDate: "",
-    teacherSalary: "",
-    teacherName: "",
-    teacherPhoto:''
-  },
+  teachers:[], 
   status: Status.LOADING,
 };
 
@@ -30,19 +18,19 @@ const instituteTeacherSlice = createSlice({
       state.status = action.payload
     },
     setTeacher(state:IInstituteTeacherInitialData,action:PayloadAction<IInstituteTeacherInitialDataTeacher>){
-      state.teacher=action.payload
+      state.teachers.push(action.payload)
     }
   },
 });
 
-const {setStatus,setTeacher} = instituteTeacherSlice.actions
+export const {setStatus,setTeacher} = instituteTeacherSlice.actions
 
 export default instituteTeacherSlice.actions
 
 export function createInstituteTeacher(data:IInstituteTeacherInitialDataTeacher){
    return async function createInstituteTeacherThunk(dispatch:AppDispatch){
     try {
-      const response = await API.post ('/teacher',data)
+      const response = await APIToken.post ('/teacher',data)
       if(response.status === 200){
         dispatch(setStatus(Status.SUCCESS))
       }
@@ -58,7 +46,7 @@ export function createInstituteTeacher(data:IInstituteTeacherInitialDataTeacher)
 export function fetchInstituteTeacher(){
    return async function createInstituteTeacherThunk(dispatch:AppDispatch){
     try {
-      const response = await API.get ('/teacher')
+      const response = await APIToken.get ('/teacher')
       if(response.status === 200){
         dispatch(setStatus(Status.SUCCESS))
         response.data.data.length > 0 &&dispatch(setTeacher(response.data.data))
@@ -76,7 +64,7 @@ export function fetchInstituteTeacher(){
 export function deleteInstituteTeacherBYId(id:string){
    return async function deleteInstituteTeacherBYIdThunk(dispatch:AppDispatch){
     try {
-      const response = await API.patch ('/teacher' +  id)
+      const response = await APIToken.delete ('/teacher/' +  id)
       if(response.status === 200){
         dispatch(setStatus(Status.SUCCESS))
        

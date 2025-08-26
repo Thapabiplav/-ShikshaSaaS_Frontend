@@ -27,6 +27,6 @@ course?:IInstituteTeacherInitialDataTeacherCourse
 }
 
 export interface IInstituteTeacherInitialData{
-  teacher:IInitialTeacherDataWithCourse,
+  teachers:IInitialTeacherDataWithCourse[],
   status:Status
 }

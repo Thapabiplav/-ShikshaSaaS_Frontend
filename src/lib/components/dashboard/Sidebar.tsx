@@ -51,8 +51,8 @@ const menuItems = [
     ),
   },
   {
-    label: "Documents",
-    href: "#",
+    label: "Teachers",
+    href: "/institute/dashboard/teacher",
     icon: (
       <path
         strokeLinecap="round"

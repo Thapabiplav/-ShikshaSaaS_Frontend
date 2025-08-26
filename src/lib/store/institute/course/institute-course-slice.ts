@@ -1,8 +1,8 @@
 import { Status } from "@/lib/types/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
-import API from "@/lib/http";
-import { IInstituteCourseInitialData } from "./institute-course-type";
+import  { APIToken } from "@/lib/http";
+import { ICourseData, IInstituteCourseInitialData } from "./institute-course-type";
 
 const initialState:IInstituteCourseInitialData = {
 status:Status.LOADING,
@@ -38,10 +38,10 @@ courses:[]
 const {setStatus,setCourse,setDeleteCourse,setEditCourse} = instituteCourseSlice.actions
 export default instituteCourseSlice.reducer
 
-export function createInstituteCourse(data:any){
+export function createInstituteCourse(data:ICourseData){
 return async function createInstituteCourseThunk(dispatch:AppDispatch){
 try {
-  const response = await API.post ('/course',data)
+  const response = await APIToken.post ('/course',data)
   if(response.status === 200){
     dispatch(setStatus(Status.SUCCESS))
   }
@@ -57,7 +57,7 @@ try {
 export function fetchInstituteCourse(){
 return async function fetchInstituteCourseThunk(dispatch:AppDispatch){
 try {
-  const response = await API.get ('/course')
+  const response = await APIToken.get ('/course')
   if(response.status === 200){
     dispatch(setStatus(Status.SUCCESS))
     response.data.data >0 && dispatch(setCourse(response.data.data))
@@ -72,9 +72,9 @@ try {
 }
 
 export function deleteInstituteCourseById(id:any){
-return async function fetchInstituteCourseByIdThunk(dispatch:AppDispatch){
+return async function deleteInstituteCourseByIdThunk(dispatch:AppDispatch){
 try {
-  const response = await API.get ('/course' + id)
+  const response = await APIToken.get ('/course' + id)
   if(response.status === 200){
     dispatch(setStatus(Status.SUCCESS))
     dispatch(setDeleteCourse(id))
@@ -92,7 +92,7 @@ try {
 export function editInstituteCourse(id:string, data:any){
 return async function editInstituteCourseThunk(dispatch:AppDispatch){
 try {
-  const response = await API.post ('/course'+id,data)
+  const response = await APIToken.post ('/course'+id,data)
   if(response.status === 200){
     dispatch(setStatus(Status.SUCCESS))
     dispatch(setEditCourse({id,data}))
