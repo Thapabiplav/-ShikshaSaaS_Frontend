@@ -16,7 +16,7 @@ courses:[]
     setStatus(state,action:PayloadAction<Status>){
       state.status = action.payload
     },
-    setCourse(state, action:PayloadAction<any>){
+    setCourse(state, action:PayloadAction<any[]>){
       state.courses = action.payload
     },
     setDeleteCourse(state , action:PayloadAction<string>){
@@ -41,7 +41,11 @@ export default instituteCourseSlice.reducer
 export function createInstituteCourse(data:ICourseData){
 return async function createInstituteCourseThunk(dispatch:AppDispatch){
 try {
-  const response = await APIToken.post ('/course',data)
+  const response = await APIToken.post ('/course',data,{
+    headers:{
+      "Content-Type":'multipart/form-data'
+    }
+  })
   if(response.status === 200){
     dispatch(setStatus(Status.SUCCESS))
   }
@@ -54,22 +58,24 @@ try {
 }
 }
 
-export function fetchInstituteCourse(){
-return async function fetchInstituteCourseThunk(dispatch:AppDispatch){
-try {
-  const response = await APIToken.get ('/course')
-  if(response.status === 200){
-    dispatch(setStatus(Status.SUCCESS))
-    response.data.data >0 && dispatch(setCourse(response.data.data))
-  }
-  else{
-    dispatch(setStatus(Status.ERROR))
-  }
-} catch (error) {
-  dispatch(setStatus(Status.ERROR))
+export function fetchInstituteCourse() {
+  return async function fetchInstituteCourseThunk(dispatch: AppDispatch) {
+    try {
+      const response = await APIToken.get("/course");
+      if (response.status === 200) {
+        dispatch(setStatus(Status.SUCCESS));
+        if (Array.isArray(response.data.data)) {
+          dispatch(setCourse(response.data.data)); // store array properly
+        }
+      } else {
+        dispatch(setStatus(Status.ERROR));
+      }
+    } catch (error) {
+      dispatch(setStatus(Status.ERROR));
+    }
+  };
 }
-}
-}
+
 
 export function deleteInstituteCourseById(id:any){
 return async function deleteInstituteCourseByIdThunk(dispatch:AppDispatch){

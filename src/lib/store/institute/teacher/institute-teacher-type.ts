@@ -13,13 +13,15 @@ interface IInstituteTeacherInitialDataTeacherCourse{
 }
 
 export interface IInstituteTeacherInitialDataTeacher{
+  id:string,
   teacherName:string,
   teacherEmail:string,
   teacherExpertise:TeacherExpertise,
   teacherSalary:string,
   teacherJoinedDate:string,
   teacherPhoneNumber:string,
-  teacherPhoto:string
+  teacherPhoto:File | null
+  teacherExperience:string
 }
 
  export interface IInitialTeacherDataWithCourse extends  IInstituteTeacherInitialDataTeacher{
