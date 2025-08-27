@@ -65,7 +65,7 @@ export function fetchInstituteCourse() {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         if (Array.isArray(response.data.data)) {
-          dispatch(setCourse(response.data.data)); // store array properly
+          dispatch(setCourse(response.data.data)); 
         }
       } else {
         dispatch(setStatus(Status.ERROR));

@@ -21,7 +21,8 @@ export interface IInstituteTeacherInitialDataTeacher{
   teacherJoinedDate:string,
   teacherPhoneNumber:string,
   teacherPhoto:File | null
-  teacherExperience:string
+  teacherExperience:string,
+  courseName:string
 }
 
  export interface IInitialTeacherDataWithCourse extends  IInstituteTeacherInitialDataTeacher{

@@ -18,9 +18,9 @@ const instituteTeacherSlice = createSlice({
     setStatus(state:IInstituteTeacherInitialData,action:PayloadAction<Status>){
       state.status = action.payload
     },
-    setTeacher(state:IInstituteTeacherInitialData,action:PayloadAction<IInstituteTeacherInitialDataTeacher[]>){
-      state.teachers = action.payload
-    },
+      setTeacher(state:IInstituteTeacherInitialData, action:PayloadAction<IInstituteTeacherInitialDataTeacher[]>){
+            state.teachers = action.payload
+        }, 
     removeTeacherById(state:IInstituteTeacherInitialData,action:PayloadAction<string>){
     const index =  state.teachers.findIndex((teacher)=>teacher.id === action.payload)
       if(index  !== -1){
@@ -37,8 +37,12 @@ export default instituteTeacherSlice.reducer
 export function createInstituteTeacher(data:ITeacherPostData){
    return async function createInstituteTeacherThunk(dispatch:AppDispatch){
     try {
-      const response = await APIToken.post ('/teacher',data)
-      if(response.status === 200){
+      const response = await APIToken.post ('/teacher',data,{
+        headers:{
+          "Content-Type":'multipart/form-data'
+        }
+      })
+      if(response.status === 201){
         dispatch(setStatus(Status.SUCCESS))
       }
       else{

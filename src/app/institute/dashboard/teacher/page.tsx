@@ -100,6 +100,12 @@ function InstituteTeacher() {
                 >
                   Email
                 </th>
+                    <th
+                  scope="col"
+                  className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"
+                >
+                  CourseName
+                </th>
                 <th
                   scope="col"
                   className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"
@@ -150,6 +156,10 @@ function InstituteTeacher() {
                       <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">{teacher.teacherName}</td>
                       <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                         {teacher?.teacherEmail}
+                        
+                      </td>
+                            <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                        {teacher?.courseName}
                         
                       </td>
                       <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
